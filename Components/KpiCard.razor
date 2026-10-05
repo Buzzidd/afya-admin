@@ -1,20 +1,19 @@
-@Titulo
-    @Valor
-    
-
+<MudPaper Class="pa-4" Elevation="1">
+    <MudStack Spacing="1">
+        <MudText Typo="Typo.body2" Color="Color.Secondary">@Titulo</MudText>
+        <MudText Typo="Typo.h5">@Valor</MudText>
+        <MudChart T="double" ChartType="ChartType.Line" ChartSeries="@Series" Width="100%" Height="50px" DisableLegend="true" />
+    </MudStack>
+</MudPaper>
 
 @code {
     [Parameter] public string Titulo { get; set; } = string.Empty;
     [Parameter] public string Valor { get; set; } = string.Empty;
     [Parameter] public string Cor { get; set; } = string.Empty;
-    [Parameter] public double[] DadosGrafico { get; set; } = Array.Empty();
+    [Parameter] public double[] DadosGrafico { get; set; } = Array.Empty<double>();
 
-    private Color CorLine => Cor switch
+    private List<ChartSeries<double>> Series => new()
     {
-        "mud-theme-primary" => Color.Primary,
-        "mud-theme-success" => Color.Success,
-        "mud-theme-error" => Color.Error,
-        "mud-theme-warning" => Color.Warning,
-        _ => Color.Default
+        new ChartSeries<double>() { Name = "Evolução", Data = DadosGrafico }
     };
 }

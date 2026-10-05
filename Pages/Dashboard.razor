@@ -2,89 +2,85 @@
 @using afya_admin.Data
 @using afya_admin.Components
 
-Visão Geral
+<MudText Typo="Typo.h5" Class="mb-4">Visão Geral</MudText>
 
-
+<MudGrid>
     @foreach (var kpi in Kpis)
     {
-        
-            
-        
+        <MudItem xs="12" sm="6" lg="3">
+            <KpiCard Titulo="@kpi.Titulo" Valor="@kpi.Valor" Cor="@kpi.Cor" DadosGrafico="@kpi.DadosGrafico" />
+        </MudItem>
     }
 
+    <MudItem xs="12" lg="8">
+        <MudPaper Class="pa-4" Elevation="1">
+            <MudText Typo="Typo.h6" Class="mb-2">Receita x Meta</MudText>
+           <MudChart T="double" ChartType="ChartType.Line" ChartSeries="@SeriesReceita"
+          ChartLabels="@LabelsMeses" Width="100%" Height="300px" />
+        </MudPaper>
+    </MudItem>
 
+    <MudItem xs="12" lg="4">
+        <MudPaper Class="pa-4" Elevation="1">
+            <MudText Typo="Typo.h6" Class="mb-2">Distribuição de Clientes</MudText>
+           <MudChart T="double" ChartType="ChartType.Donut" ChartSeries="@DadosDonut"
+          ChartLabels="@LabelsDonut" Width="100%" Height="300px" />
+        </MudPaper>
+    </MudItem>
 
-    
-        
-            Receita x Meta
-            
-        
-    
-    
-        
-            Distribuição de Clientes
-            
-        
-    
+    <MudItem xs="12" lg="8">
+        <MudPaper Class="pa-4" Elevation="1">
+            <MudText Typo="Typo.h6" Class="mb-2">Projetos Recentes</MudText>
+            <MudTable Items="@Projetos" Hover="true" Elevation="0">
+                <HeaderContent>
+                    <MudTh>Nome</MudTh>
+                    <MudTh>Responsável</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Progresso</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.Nome</MudTd>
+                    <MudTd>@context.Responsavel</MudTd>
+                    <MudTd>
+                        <MudChip T="string" Size="Size.Small">@context.Status</MudChip>
+                    </MudTd>
+                    <MudTd>
+                        <MudProgressLinear Value="@context.Progresso" Size="Size.Small" />
+                        @context.Progresso%
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudPaper>
+    </MudItem>
 
-
-
-    
-        
-            Projetos Recentes
-            
-                
-                    Nome
-                    Responsável
-                    Status
-                    Progresso
-                
-                
-                    @context.Nome
-                    @context.Responsavel
-                    
-                        
-                            @context.Status
-                        
-                    
-                    
-                        
-                            @context.Progresso%
-                        
-                    
-                
-            
-        
-    
-    
-    
-        
-            Atividades Recentes
-            
+    <MudItem xs="12" lg="4">
+        <MudPaper Class="pa-4" Elevation="1">
+            <MudText Typo="Typo.h6" Class="mb-2">Atividades Recentes</MudText>
+            <MudStack Spacing="2">
                 @foreach (var atv in Atividades)
                 {
-                    
-                        @atv.Descricao
-                        @atv.Tempo
-                    
+                    <MudStack Spacing="0">
+                        <MudText Typo="Typo.body2">@atv.Descricao</MudText>
+                        <MudText Typo="Typo.caption" Color="Color.Secondary">@atv.Tempo</MudText>
+                    </MudStack>
                 }
-            
-        
-    
-
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
 
 @code {
-    private List Kpis = DadosFicticios.ObterKpis();
-    private List Projetos = DadosFicticios.ObterProjetos();
-    private List Atividades = DadosFicticios.ObterAtividades();
+    private List<Kpi> Kpis = DadosFicticios.ObterKpis();
+    private List<Projeto> Projetos = DadosFicticios.ObterProjetos();
+    private List<Atividade> Atividades = DadosFicticios.ObterAtividades();
 
-    public List SeriesReceita = new()
+    public List<ChartSeries<double>> SeriesReceita = new()
     {
-        new ChartSeries() { Name = "Receita", Data = new double[] { 40, 60, 50, 80, 100 } },
-        new ChartSeries() { Name = "Meta", Data = new double[] { 50, 50, 70, 70, 90 } },
+        new ChartSeries<double>() { Name = "Receita", Data = new double[] { 40, 60, 50, 80, 100 } },
+        new ChartSeries<double>() { Name = "Meta", Data = new double[] { 50, 50, 70, 70, 90 } },
     };
     public string[] LabelsMeses = { "Jan", "Fev", "Mar", "Abr", "Mai" };
 
-    public double[] DadosDonut = { 40, 35, 25 };
+    public List<ChartSeries<double>> DadosDonut = new() { new ChartSeries<double>() { Name = "Total", Data = new double[] { 40, 35, 25 } } };
     public string[] LabelsDonut = { "Ativos", "Inativos", "Novos" };
 }
