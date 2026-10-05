@@ -13,59 +13,28 @@
     }
 
     <MudItem xs="12" lg="8">
-        <MudPaper Class="pa-4" Elevation="1">
-            <MudText Typo="Typo.h6" Class="mb-2">Receita x Meta</MudText>
-           <MudChart T="double" ChartType="ChartType.Line" ChartSeries="@SeriesReceita"
-          ChartLabels="@LabelsMeses" Width="100%" Height="300px" />
-        </MudPaper>
+        <DashboardCard Titulo="Receita x Meta">
+            <MudChart T="double" ChartType="ChartType.Line" ChartSeries="@SeriesReceita"
+                      ChartLabels="@LabelsMeses" Width="100%" Height="300px" />
+        </DashboardCard>
     </MudItem>
 
     <MudItem xs="12" lg="4">
-        <MudPaper Class="pa-4" Elevation="1">
-            <MudText Typo="Typo.h6" Class="mb-2">Distribuição de Clientes</MudText>
-           <MudChart T="double" ChartType="ChartType.Donut" ChartSeries="@DadosDonut"
+        <DashboardCard Titulo="Distribuição de Clientes">
+            <MudChart T="double" ChartType="ChartType.Donut" ChartSeries="@([DadosDonut])"
           ChartLabels="@LabelsDonut" Width="100%" Height="300px" />
-        </MudPaper>
+        </DashboardCard>
     </MudItem>
 
     <MudItem xs="12" lg="8">
-        <MudPaper Class="pa-4" Elevation="1">
-            <MudText Typo="Typo.h6" Class="mb-2">Projetos Recentes</MudText>
-            <MudTable Items="@Projetos" Hover="true" Elevation="0">
-                <HeaderContent>
-                    <MudTh>Nome</MudTh>
-                    <MudTh>Responsável</MudTh>
-                    <MudTh>Status</MudTh>
-                    <MudTh>Progresso</MudTh>
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd>@context.Nome</MudTd>
-                    <MudTd>@context.Responsavel</MudTd>
-                    <MudTd>
-                        <MudChip T="string" Size="Size.Small">@context.Status</MudChip>
-                    </MudTd>
-                    <MudTd>
-                        <MudProgressLinear Value="@context.Progresso" Size="Size.Small" />
-                        @context.Progresso%
-                    </MudTd>
-                </RowTemplate>
-            </MudTable>
-        </MudPaper>
+        <TabelaProjetos Projetos="@Projetos" />
     </MudItem>
 
     <MudItem xs="12" lg="4">
-        <MudPaper Class="pa-4" Elevation="1">
-            <MudText Typo="Typo.h6" Class="mb-2">Atividades Recentes</MudText>
-            <MudStack Spacing="2">
-                @foreach (var atv in Atividades)
-                {
-                    <MudStack Spacing="0">
-                        <MudText Typo="Typo.body2">@atv.Descricao</MudText>
-                        <MudText Typo="Typo.caption" Color="Color.Secondary">@atv.Tempo</MudText>
-                    </MudStack>
-                }
-            </MudStack>
-        </MudPaper>
+        <MudStack Spacing="3">
+            <PerformanceProjetos Projetos="@Projetos" />
+            <AtividadesRecentes Atividades="@Atividades" />
+        </MudStack>
     </MudItem>
 </MudGrid>
 
@@ -81,6 +50,6 @@
     };
     public string[] LabelsMeses = { "Jan", "Fev", "Mar", "Abr", "Mai" };
 
-    public List<ChartSeries<double>> DadosDonut = new() { new ChartSeries<double>() { Name = "Total", Data = new double[] { 40, 35, 25 } } };
+    public double[] DadosDonut = { 40, 35, 25 };
     public string[] LabelsDonut = { "Ativos", "Inativos", "Novos" };
 }
