@@ -1,0 +1,17 @@
+@using afya_admin.Data
+
+<DashboardCard Titulo="Atividades Recentes">
+    <MudStack Spacing="2">
+        @foreach (var atv in Atividades)
+        {
+            <MudStack Spacing="0">
+                <MudText Typo="Typo.body2">@atv.Descricao</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary">@atv.Tempo</MudText>
+            </MudStack>
+        }
+    </MudStack>
+</DashboardCard>
+
+@code {
+    [Parameter] public List<Atividade> Atividades { get; set; } = new();
+}

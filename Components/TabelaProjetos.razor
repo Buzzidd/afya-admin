@@ -1,0 +1,25 @@
+@using afya_admin.Data
+
+<DashboardCard Titulo="Projetos Recentes">
+    <MudTable Items="@Projetos" Hover="true" Elevation="0">
+        <HeaderContent>
+            <MudTh>Nome</MudTh>
+            <MudTh>Responsável</MudTh>
+            <MudTh>Status</MudTh>
+            <MudTh>Progresso</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd>@context.Nome</MudTd>
+            <MudTd>@context.Responsavel</MudTd>
+            <MudTd>
+                <MudChip T="string" Size="Size.Small"
+                         Color="@(context.Status == "Concluído" ? Color.Success : Color.Info)">@context.Status</MudChip>
+            </MudTd>
+            <MudTd>@context.Progresso%</MudTd>
+        </RowTemplate>
+    </MudTable>
+</DashboardCard>
+
+@code {
+    [Parameter] public List<Projeto> Projetos { get; set; } = new();
+}

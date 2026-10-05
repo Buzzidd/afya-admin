@@ -1,0 +1,24 @@
+@using afya_admin.Data
+
+<DashboardCard Titulo="Performance dos Projetos">
+    <MudStack Spacing="3">
+        @foreach (var p in Projetos)
+        {
+            <div>
+                <MudStack Row="true" Justify="Justify.SpaceBetween">
+                    <MudText Typo="Typo.body2">@p.Nome</MudText>
+                    <MudText Typo="Typo.body2">@p.Progresso%</MudText>
+                </MudStack>
+                <MudProgressLinear Value="@p.Progresso" Color="@CorDoProgresso(p.Progresso)"
+                                   Size="Size.Medium" Rounded="true" />
+            </div>
+        }
+    </MudStack>
+</DashboardCard>
+
+@code {
+    [Parameter] public List<Projeto> Projetos { get; set; } = new();
+
+    private static Color CorDoProgresso(double progresso) =>
+        progresso >= 100 ? Color.Success : progresso >= 50 ? Color.Info : Color.Warning;
+}

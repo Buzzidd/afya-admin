@@ -1,0 +1,9 @@
+<MudPaper Class="pa-4 mud-height-full" Elevation="1">
+    <MudText Typo="Typo.h6" Class="mb-2">@Titulo</MudText>
+    @ChildContent
+</MudPaper>
+
+@code {
+    [Parameter] public string Titulo { get; set; } = string.Empty;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}
