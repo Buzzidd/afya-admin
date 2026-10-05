@@ -1,5 +1,15 @@
 <MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Counter</MudNavLink>
-    <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Weather</MudNavLink>
+    <MudText Typo="Typo.overline" Class="px-4 mt-2">Geral</MudText>
+    <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
+    <MudNavLink Href="/projetos" Icon="@Icons.Material.Filled.Folder">Projetos</MudNavLink>
+
+    <MudDivider Class="my-2" />
+
+    <MudText Typo="Typo.overline" Class="px-4">Análises</MudText>
+    <MudNavLink Href="/relatorios" Icon="@Icons.Material.Filled.BarChart">Relatórios</MudNavLink>
+
+    <MudDivider Class="my-2" />
+
+    <MudText Typo="Typo.overline" Class="px-4">Conta</MudText>
+    <MudNavLink Icon="@Icons.Material.Filled.Settings" Disabled="true">Configurações</MudNavLink>
 </MudNavMenu>

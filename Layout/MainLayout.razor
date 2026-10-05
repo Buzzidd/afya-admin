@@ -1,41 +1,90 @@
 @inherits LayoutComponentBase
 
-<MudThemeProvider @bind-IsDarkMode="_isDarkMode" />
+<MudThemeProvider Theme="_tema" @bind-IsDarkMode="_isDarkMode" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit"
-                       Edge="Edge.Start" OnClick="@(() => _drawerOpen = !_drawerOpen)" />
+    <MudAppBar Color="Color.Surface" Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start"
+                       OnClick="@(() => _drawerOpen = !_drawerOpen)" />
+
+        <div class="d-none d-sm-flex ml-2">
+            <MudBreadcrumbs Items="_migalhas" Class="pa-0" />
+        </div>
+
         <MudSpacer />
+
+        <MudTextField T="string" Placeholder="Buscar..." Variant="Variant.Outlined"
+                      Margin="Margin.Dense" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search"
+                      Class="d-none d-md-flex mx-2" />
+
         <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)"
-                       Color="Color.Inherit" OnClick="@(() => _isDarkMode = !_isDarkMode)" />
+                       OnClick="@(() => _isDarkMode = !_isDarkMode)" />
+
+        <MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+            <ActivatorContent>
+                <MudBadge Content="3" Color="Color.Error" Overlap="true" Class="mx-2">
+                    <MudIconButton Icon="@Icons.Material.Filled.Notifications" />
+                </MudBadge>
+            </ActivatorContent>
+            <ChildContent>
+                <MudMenuItem>Nova matrícula registrada</MudMenuItem>
+                <MudMenuItem>Relatório mensal gerado</MudMenuItem>
+                <MudMenuItem>Nova turma adicionada</MudMenuItem>
+            </ChildContent>
+        </MudMenu>
+
+        <MudMenu AnchorOrigin="Origin.BottomRight" TransformOrigin="Origin.TopRight">
+            <ActivatorContent>
+                <MudAvatar Color="Color.Primary" Size="Size.Small">C</MudAvatar>
+            </ActivatorContent>
+            <ChildContent>
+                <MudMenuItem Icon="@Icons.Material.Filled.Person">Meu perfil</MudMenuItem>
+                <MudMenuItem Icon="@Icons.Material.Filled.Settings">Configurações</MudMenuItem>
+                <MudDivider />
+                <MudMenuItem Icon="@Icons.Material.Filled.Logout">Sair</MudMenuItem>
+            </ChildContent>
+        </MudMenu>
     </MudAppBar>
 
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Variant="DrawerVariant.Responsive">
         <MudDrawerHeader>
-            <MudText Typo="Typo.h6">Afya Admin</MudText>
+            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                <MudAvatar Color="Color.Primary" Size="Size.Small">
+                    <MudIcon Icon="@Icons.Material.Filled.School" />
+                </MudAvatar>
+                <MudText Typo="Typo.h6">Afya Admin</MudText>
+            </MudStack>
         </MudDrawerHeader>
-        <MudNavMenu>
-            <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
-            <MudNavLink Href="/projetos" Icon="@Icons.Material.Filled.Folder">Projetos</MudNavLink>
-            <MudNavLink Href="/relatorios" Icon="@Icons.Material.Filled.BarChart">Relatórios</MudNavLink>
-        </MudNavMenu>
+        <NavMenu />
     </MudDrawer>
 
-<MudMainContent>
+    <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-6 pb-6">
             @Body
         </MudContainer>
     </MudMainContent>
 </MudLayout>
+
 @code {
     private bool _drawerOpen = true;
     private bool _isDarkMode;
-}
 
+    private readonly MudTheme _tema = new()
+    {
+        PaletteLight = new PaletteLight { Primary = "#5B4AE0" },
+        PaletteDark = new PaletteDark { Primary = "#8B7CF6" }
+    };
+
+    private readonly List<BreadcrumbItem> _migalhas = new()
+    {
+        new BreadcrumbItem("Início", href: "/"),
+        new BreadcrumbItem("Dashboard", href: null, disabled: true)
+    };
+}
 
 
 
